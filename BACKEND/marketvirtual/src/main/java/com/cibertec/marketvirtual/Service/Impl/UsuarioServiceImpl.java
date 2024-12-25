@@ -13,29 +13,24 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public Usuario registrarUsuario(Usuario usuario) {
-        // Encriptar la contraseña antes de guardar
         String contrasenaEncriptada = passwordEncoder.encode(usuario.getContrasena());
         usuario.setContrasena(contrasenaEncriptada);
-
-        // Guardar usuario en la base de datos
         return usuarioRepository.save(usuario);
     }
 
     @Override
     public Usuario login(String email, String contrasena) {
-        // Buscar usuario por email
         Usuario usuario = usuarioRepository.findByEmail(email);
-
-        // Validar si el usuario existe y la contraseña coincide
         if (usuario != null && passwordEncoder.matches(contrasena, usuario.getContrasena())) {
-            return usuario; // Usuario autenticado
+            return usuario;
         }
-
-        return null; // Credenciales inválidas
+        return null;
     }
 }
+
 
