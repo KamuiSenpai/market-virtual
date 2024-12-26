@@ -157,4 +157,24 @@ SELECT * FROM estados;
 SELECT * FROM ordenes_estados_historial;
 SELECT * FROM detalles_orden;
 
+SELECT 
+    h.id AS historial_id,
+    h.orden_id,
+    ea.id AS estado_anterior_id,
+    ea.nombre AS estado_anterior_nombre,
+    ea.descripcion AS estado_anterior_descripcion,
+    ec.id AS estado_actual_id,
+    ec.nombre AS estado_actual_nombre,
+    ec.descripcion AS estado_actual_descripcion,
+    h.cambiado_por,
+    h.fecha_cambio
+FROM 
+    ordenes_estados_historial h
+LEFT JOIN 
+    estados ea ON h.estado_anterior_id = ea.id
+INNER JOIN 
+    estados ec ON h.estado_actual_id = ec.id
+WHERE 
+    h.orden_id = 5; -- Reemplaza el número 5 por el ID de la orden que quieres consultar
+
 
