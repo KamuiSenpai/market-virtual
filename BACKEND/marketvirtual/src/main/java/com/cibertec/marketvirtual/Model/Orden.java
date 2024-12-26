@@ -10,7 +10,7 @@ public class Orden {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
@@ -19,9 +19,9 @@ public class Orden {
     @Column(nullable = false)
     private Double total;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
-    private Estado estado;
+    @ManyToOne
+    @JoinColumn(name = "estado_id", nullable = false)
+    private OrdenEstado estado;
 
     @Column(name = "direccion_entrega", nullable = false, length = 255)
     private String direccionEntrega;
@@ -35,29 +35,29 @@ public class Orden {
     @OneToMany(mappedBy = "orden", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DetalleOrden> detalles;
 
+    @OneToMany(mappedBy = "orden", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrdenesEstadoHistorial> historialEstados;
+
     public Orden() {
-        // Constructor vacío
+        this.creadoEn = LocalDateTime.now();
     }
 
-    public Orden(Integer id, Usuario usuario, Double total, Estado estado, String direccionEntrega,
-                 String observaciones, LocalDateTime creadoEn, List<DetalleOrden> detalles) {
-        this.id = id;
+    public Orden(Usuario usuario, Double total, OrdenEstado estado, String direccionEntrega, String observaciones) {
         this.usuario = usuario;
         this.total = total;
         this.estado = estado;
         this.direccionEntrega = direccionEntrega;
         this.observaciones = observaciones;
-        this.creadoEn = creadoEn;
-        this.detalles = detalles;
+        this.creadoEn = LocalDateTime.now();
     }
 
     // Getters y Setters
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -77,11 +77,11 @@ public class Orden {
         this.total = total;
     }
 
-    public Estado getEstado() {
+    public OrdenEstado getEstado() {
         return estado;
     }
 
-    public void setEstado(Estado estado) {
+    public void setEstado(OrdenEstado estado) {
         this.estado = estado;
     }
 
@@ -117,10 +117,11 @@ public class Orden {
         this.detalles = detalles;
     }
 
-    public enum Estado {
-        PENDIENTE,
-        APROBADA,
-        DESPACHADA,
-        CANCELADA
+    public List<OrdenesEstadoHistorial> getHistorialEstados() {
+        return historialEstados;
+    }
+
+    public void setHistorialEstados(List<OrdenesEstadoHistorial> historialEstados) {
+        this.historialEstados = historialEstados;
     }
 }

@@ -1,6 +1,7 @@
 package com.cibertec.marketvirtual.Model;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "detalles_orden")
@@ -8,7 +9,7 @@ public class DetalleOrden {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "orden_id", nullable = false)
@@ -22,14 +23,12 @@ public class DetalleOrden {
     private Integer cantidad;
 
     @Column(nullable = false)
-    private Double subtotal;
+    private BigDecimal subtotal;
 
     public DetalleOrden() {
-        // Constructor vacío
     }
 
-    public DetalleOrden(Integer id, Orden orden, Producto producto, Integer cantidad, Double subtotal) {
-        this.id = id;
+    public DetalleOrden(Orden orden, Producto producto, Integer cantidad, BigDecimal subtotal) {
         this.orden = orden;
         this.producto = producto;
         this.cantidad = cantidad;
@@ -38,11 +37,11 @@ public class DetalleOrden {
 
     // Getters y Setters
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -70,11 +69,11 @@ public class DetalleOrden {
         this.cantidad = cantidad;
     }
 
-    public Double getSubtotal() {
+    public BigDecimal getSubtotal() {
         return subtotal;
     }
 
-    public void setSubtotal(Double subtotal) {
+    public void setSubtotal(BigDecimal subtotal) {
         this.subtotal = subtotal;
     }
 }
