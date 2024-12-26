@@ -3,6 +3,7 @@ package com.cibertec.marketvirtual.Controller;
 import com.cibertec.marketvirtual.Model.Usuario;
 import com.cibertec.marketvirtual.Service.UsuarioService;
 import com.cibertec.marketvirtual.Utils.JwtUtil;
+import com.cibertec.marketvirtual.Utils.LoginAttemptService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,10 +22,12 @@ public class UsuarioController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
+    private LoginAttemptService loginAttemptService;
+
     /**
      * Endpoint para iniciar sesión
-     * @param email correo electrónico del usuario
-     * @param contrasena contraseña del usuario
+     * @param loginRequest mapa con las credenciales de inicio de sesión
      * @return Token JWT y datos del usuario si las credenciales son válidas
      */
     @PostMapping("/login")
@@ -32,15 +35,24 @@ public class UsuarioController {
         String email = loginRequest.get("email");
         String contrasena = loginRequest.get("contrasena");
 
+        // Verificar si la cuenta está bloqueada
+        if (loginAttemptService.isBlocked(email)) {
+            return ResponseEntity.status(403).body("La cuenta está bloqueada. Intente nuevamente más tarde.");
+        }
+
         Usuario usuario = usuarioService.login(email, contrasena);
+
         if (usuario != null) {
+            // Restablecer el contador de intentos fallidos
+            loginAttemptService.loginSucceeded(email);
             String token = jwtUtil.generateToken(usuario.getEmail());
             return ResponseEntity.ok(Map.of("token", token, "usuario", usuario));
         } else {
+            // Incrementar el contador de intentos fallidos
+            loginAttemptService.loginFailed(email);
             return ResponseEntity.status(401).body("Credenciales inválidas");
         }
     }
-
 
     /**
      * Endpoint para registrar un nuevo usuario
