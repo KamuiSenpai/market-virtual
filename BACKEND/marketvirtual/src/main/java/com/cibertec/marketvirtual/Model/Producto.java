@@ -25,28 +25,30 @@ public class Producto {
     @JoinColumn(name = "categoria_id", nullable = false)
     private Categoria categoria;
 
-    @Column(name = "activo", nullable = false)
-    private Boolean activo;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "unidad_medida_id", nullable = false)
+    private UnidadMedida unidadMedida;
+
+    @Column(nullable = false)
+    private Boolean activo = true;
 
     @Column(name = "imagen_url")
     private String imagenUrl;
 
     @Column(name = "creado_en", nullable = false, updatable = false)
-    private LocalDateTime creadoEn;
+    private LocalDateTime creadoEn = LocalDateTime.now();
 
     // Constructores
-    public Producto() {
-        this.creadoEn = LocalDateTime.now();
-    }
+    public Producto() {}
 
-    public Producto(String nombre, String descripcion, BigDecimal precio, Categoria categoria, Boolean activo, String imagenUrl) {
+    public Producto(String nombre, String descripcion, BigDecimal precio, Categoria categoria, UnidadMedida unidadMedida, Boolean activo, String imagenUrl) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
         this.categoria = categoria;
+        this.unidadMedida = unidadMedida;
         this.activo = activo;
         this.imagenUrl = imagenUrl;
-        this.creadoEn = LocalDateTime.now();
     }
 
     // Getters y Setters
@@ -88,6 +90,14 @@ public class Producto {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public UnidadMedida getUnidadMedida() {
+        return unidadMedida;
+    }
+
+    public void setUnidadMedida(UnidadMedida unidadMedida) {
+        this.unidadMedida = unidadMedida;
     }
 
     public Boolean getActivo() {
