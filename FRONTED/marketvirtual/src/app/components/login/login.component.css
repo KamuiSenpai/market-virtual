@@ -8,41 +8,30 @@ body {
   margin: 0;
 }
 
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh; /* Ocupar toda la altura de la pantalla */
-  width: 100vw; /* Ocupar todo el ancho de la pantalla */
-}
+
 
 .login-card {
   background: white;
   padding: 2rem;
   border-radius: 10px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  width: 300px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para efecto de relieve */
+  width: 350px; /* Ancho fijo */
   text-align: center;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid rgba(0, 0, 0, 0.1); /* Borde para reforzar el relieve */
 }
 
-.login-header {
-  margin-bottom: 1rem;
-}
+
 
 .user-icon {
-  width: 120px; /* Incrementa el tamaño de la imagen */
-  height: 120px; /* Para mantener proporciones */
-  border-radius: 50%; /* Mantén la forma circular */
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
   margin-bottom: 0.5rem;
-  box-shadow: none; /* Elimina el marco oscuro */
-  border: 2px solid #ddd; /* Opcional: un borde claro */
-}
-
-
-.login-header h2 {
-  font-size: 1.5rem;
-  margin: 0;
+  box-shadow: none;
+  border: 2px solid #ddd;
 }
 
 .input-group {
@@ -53,11 +42,6 @@ body {
   border-radius: 5px;
   padding: 0.5rem;
   background: #f9f9f9;
-}
-
-.input-group label {
-  margin-right: 0.5rem;
-  color: #888;
 }
 
 .input-group input {
@@ -80,14 +64,61 @@ body {
   margin-bottom: 1rem;
 }
 
-.login-button:hover {
-  background: #00f2fe;
+.welcome-section {
+  flex: 1;
+  max-width: 600px; /* Limitar ancho máximo de la columna */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  height: 484px; /* Altura consistente con el login */
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra alrededor de la sección */
+  background: white; /* Fondo blanco para el relieve */
+  border: 1px solid rgba(0, 0, 0, 0.1); /* Borde para el efecto de relieve */
+}
+
+
+.welcome-content {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 1.5rem 2rem;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1;
+}
+
+.welcome-content h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: #333;
+}
+
+.welcome-content p {
+  margin: 0.5rem 0 0;
+  color: #555;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Forzar altura total */
+  width: 100vw; /* Forzar ancho total */
+  margin: 0 auto; /* Centrando horizontalmente */
 }
 
 .extra-options {
   display: flex;
-  justify-content: space-between;
-  font-size: 0.9rem;
+  justify-content: space-between; /* Asegura separación entre los elementos */
+  align-items: center; /* Centra verticalmente los elementos */
+  margin-top: 1rem; /* Espacio respecto al botón de inicio de sesión */
+  font-size: 0.8rem; /* Reduce el tamaño de la letra */
+  gap: 1rem; /* Añade separación entre "Recuérdame" y "Olvidé mi contraseña" */
 }
 
 .extra-options a {
