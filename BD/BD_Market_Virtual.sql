@@ -18,17 +18,26 @@ CREATE TABLE unidades_medida (
     creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Nueva Tabla de Categorías
+CREATE TABLE categorias (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion TEXT,
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
+-- Tabla de Productos
 CREATE TABLE productos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     descripcion TEXT,
     precio DECIMAL(10, 2) NOT NULL,
-    categoria ENUM('Envases', 'Limpieza', 'Abarrotes', 'Oficina', 'Bebidas', 'Otros') NOT NULL,
+    categoria_id INT NOT NULL,
     unidad_medida_id INT NOT NULL,
     activo BOOLEAN DEFAULT TRUE,
     imagen_url VARCHAR(255),
     creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (categoria_id) REFERENCES categorias(id),
     FOREIGN KEY (unidad_medida_id) REFERENCES unidades_medida(id)
 );
 
@@ -69,12 +78,21 @@ INSERT INTO unidades_medida (nombre) VALUES
 ('PAQUETE'),
 ('BOLSA');
 
-INSERT INTO productos (nombre, descripcion, precio, categoria, unidad_medida_id, activo, imagen_url) VALUES
-('Envase Rectangular Grande', 'Envase plástico resistente ideal para delivery', 2.50, 'Envases', 1, TRUE, '/uploads/images/envase1.jpg'),
-('Detergente Multiusos', 'Detergente para limpieza general', 10.00, 'Limpieza', 2, TRUE, '/uploads/images/detergente.jpg'),
-('Caja de Servilletas', 'Servilletas blancas de alta calidad', 15.00, 'Oficina', 2, TRUE, '/uploads/images/servilletas.jpg'),
-('Paquete de Arroz', 'Paquete de arroz de 5kg', 18.50, 'Abarrotes', 4, TRUE, '/uploads/images/arroz.jpg'),
-('Bolsa de Azúcar', 'Bolsa de azúcar de 3kg', 12.00, 'Abarrotes', 5, TRUE, '/uploads/images/azucar.jpg');
+INSERT INTO categorias (nombre, descripcion, creado_en) VALUES
+('Envases', 'Productos relacionados con envases para alimentos o bebidas', CURRENT_TIMESTAMP),
+('Limpieza', 'Productos para la limpieza y desinfección', CURRENT_TIMESTAMP),
+('Abarrotes', 'Alimentos básicos y productos de despensa', CURRENT_TIMESTAMP),
+('Oficina', 'Suministros y artículos para oficina', CURRENT_TIMESTAMP),
+('Bebidas', 'Productos líquidos para consumo', CURRENT_TIMESTAMP);
+
+
+INSERT INTO productos (nombre, descripcion, precio, categoria_id, unidad_medida_id, activo, imagen_url, creado_en) VALUES
+('Vaso de papel 12oz', 'Vaso de papel ecológico para bebidas calientes', 0.50, 1, 1, TRUE, 'https://example.com/imagenes/vaso_papel.jpg', CURRENT_TIMESTAMP),
+('Desinfectante multisuperficie', 'Desinfectante líquido para múltiples superficies', 5.99, 2, 2, TRUE, 'https://example.com/imagenes/desinfectante.jpg', CURRENT_TIMESTAMP),
+('Arroz blanco 1kg', 'Arroz blanco de grano largo', 3.20, 3, 3, TRUE, 'https://example.com/imagenes/arroz_blanco.jpg', CURRENT_TIMESTAMP),
+('Cuaderno universitario', 'Cuaderno universitario de 100 hojas', 2.50, 4, 4, TRUE, 'https://example.com/imagenes/cuaderno.jpg', CURRENT_TIMESTAMP),
+('Agua mineral 500ml', 'Botella de agua mineral sin gas', 1.00, 5, 1, TRUE, 'https://example.com/imagenes/agua_mineral.jpg', CURRENT_TIMESTAMP);
+
 
 -- Crear una orden de prueba
 INSERT INTO ordenes (usuario_id, total, estado, direccion_entrega, observaciones) VALUES
@@ -107,3 +125,4 @@ JOIN
     unidades_medida um ON p.unidad_medida_id = um.id;
 
 
+SELECT * from usuarios

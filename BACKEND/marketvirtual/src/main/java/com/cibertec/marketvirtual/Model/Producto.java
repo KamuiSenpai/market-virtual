@@ -1,6 +1,7 @@
 package com.cibertec.marketvirtual.Model;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -9,58 +10,51 @@ public class Producto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false, length = 100)
     private String nombre;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(length = 255)
     private String descripcion;
 
     @Column(nullable = false)
-    private Double precio;
+    private BigDecimal precio;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "categoria_id", nullable = false)
     private Categoria categoria;
 
-    @ManyToOne
-    @JoinColumn(name = "unidad_medida_id", nullable = false)
-    private UnidadMedida unidadMedida;
-
-    @Column(nullable = false)
+    @Column(name = "activo", nullable = false)
     private Boolean activo;
 
-    @Column(name = "imagen_url", length = 255)
+    @Column(name = "imagen_url")
     private String imagenUrl;
 
-    @Column(name = "creado_en", updatable = false)
+    @Column(name = "creado_en", nullable = false, updatable = false)
     private LocalDateTime creadoEn;
 
+    // Constructores
     public Producto() {
-        // Constructor vacío
+        this.creadoEn = LocalDateTime.now();
     }
 
-    public Producto(Integer id, String nombre, String descripcion, Double precio, Categoria categoria,
-                    UnidadMedida unidadMedida, Boolean activo, String imagenUrl, LocalDateTime creadoEn) {
-        this.id = id;
+    public Producto(String nombre, String descripcion, BigDecimal precio, Categoria categoria, Boolean activo, String imagenUrl) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
         this.categoria = categoria;
-        this.unidadMedida = unidadMedida;
         this.activo = activo;
         this.imagenUrl = imagenUrl;
-        this.creadoEn = creadoEn;
+        this.creadoEn = LocalDateTime.now();
     }
 
     // Getters y Setters
-
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -80,11 +74,11 @@ public class Producto {
         this.descripcion = descripcion;
     }
 
-    public Double getPrecio() {
+    public BigDecimal getPrecio() {
         return precio;
     }
 
-    public void setPrecio(Double precio) {
+    public void setPrecio(BigDecimal precio) {
         this.precio = precio;
     }
 
@@ -94,14 +88,6 @@ public class Producto {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
-    }
-
-    public UnidadMedida getUnidadMedida() {
-        return unidadMedida;
-    }
-
-    public void setUnidadMedida(UnidadMedida unidadMedida) {
-        this.unidadMedida = unidadMedida;
     }
 
     public Boolean getActivo() {
@@ -126,14 +112,5 @@ public class Producto {
 
     public void setCreadoEn(LocalDateTime creadoEn) {
         this.creadoEn = creadoEn;
-    }
-
-    public enum Categoria {
-        ENVASES,
-        LIMPIEZA,
-        ABARROTES,
-        OFICINA,
-        BEBIDAS,
-        OTROS
     }
 }
