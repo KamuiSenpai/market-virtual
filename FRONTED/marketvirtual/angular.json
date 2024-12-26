@@ -3,9 +3,19 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "market-virtual": {
+    "plantilla-front": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -13,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/market-virtual",
+            "outputPath": "dist/plantilla-front",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -64,10 +74,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "market-virtual:build:production"
+              "buildTarget": "plantilla-front:build:production"
             },
             "development": {
-              "buildTarget": "market-virtual:build:development"
+              "buildTarget": "plantilla-front:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -97,8 +107,5 @@
         }
       }
     }
-  },
-  "cli": {
-    "analytics": "66230c49-3b68-4f88-b999-e2577af2d77c"
   }
 }
