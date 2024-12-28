@@ -1,0 +1,56 @@
+<div class="productos-container">
+  <h1>Gestión de Productos</h1>
+  <a href="#" class="nuevo-producto-btn">+ Nuevo Producto</a>
+
+  <!-- Filtros avanzados -->
+  <div class="filtros-container">
+    <div class="filtro-input">
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" placeholder="Buscar por nombre..." />
+    </div>
+    <div class="filtro-input">
+      <label for="categoria">Categoría:</label>
+      <select id="categoria">
+        <option value="">Todas</option>
+        <option value="1">Categoría 1</option>
+        <option value="2">Categoría 2</option>
+      </select>
+    </div>
+    <div class="filtro-input">
+      <label for="precio-minimo">Precio mínimo:</label>
+      <input type="number" id="precio-minimo" min="0" placeholder="0.00" />
+    </div>
+    <div class="filtro-input">
+      <label for="precio-maximo">Precio máximo:</label>
+      <input type="number" id="precio-maximo" min="0" placeholder="0.00" />
+    </div>
+    <button class="aplicar-filtros-btn">Aplicar filtros</button>
+  </div>
+
+  <!-- Tabla de productos -->
+  <table class="tabla-productos">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Categoría</th>
+        <th>Precio</th>
+        <th>Unidad</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Ejemplo Producto</td>
+        <td>Categoría 1</td>
+        <td>$10.00</td>
+        <td>Unidad</td>
+        <td>Activo</td>
+        <td>
+          <a href="#" class="acciones-btn editar">Editar</a>
+          <a href="#" class="acciones-btn eliminar">Eliminar</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
