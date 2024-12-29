@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -18,5 +17,15 @@ export class AuthService {
       contrasena: credentials.password
     });
   }
+
+  logout(): void {
+    localStorage.removeItem('token'); // Elimina el token almacenado
+  }
+
+  isAuthenticated(): boolean {
+    const token = localStorage.getItem('token');
+    return !!token; // Devuelve true si el token existe
+  }
 }
+
 

@@ -1,37 +1,47 @@
 import { Component, OnInit } from '@angular/core';
+import { ProductosService } from './../../services/productos.service';
+
 
 @Component({
   selector: 'app-productos',
   templateUrl: './productos.component.html',
-  styleUrls: ['./productos.component.css'], // Corregido: styleUrls en plural
+  styleUrls: ['./productos.component.css']
 })
 export class ProductosComponent implements OnInit {
-  productos: any[] = []; // Puedes usar un modelo específico si lo tienes definido
+  productos: any[] = []; // Declarar productos como un arreglo
+
+  constructor(private productosService: ProductosService) {}
 
   ngOnInit(): void {
-    // Aquí asignamos datos estáticos de ejemplo a los productos
-    this.productos = [
-      {
-        id: 1,
-        nombre: 'Producto 1',
-        descripcion: 'Descripción del Producto 1',
-        precio: 10.0,
-        categoria: 'Categoría 1',
+    this.cargarProductos();
+  }
+
+  cargarProductos(): void {
+    this.productosService.getProductos().subscribe(
+      (data: any[]) => {
+        this.productos = data.map((producto) => ({
+          nombre: producto.nombre,
+          categoria: producto.categoriaNombre || 'Sin categoría',
+          precio: producto.precio,
+          unidad: producto.unidadMedidaNombre || 'Sin unidad',
+          estado: producto.activo ? 'Activo' : 'Inactivo',
+        }));
       },
-      {
-        id: 2,
-        nombre: 'Producto 2',
-        descripcion: 'Descripción del Producto 2',
-        precio: 20.0,
-        categoria: 'Categoría 2',
-      },
-      {
-        id: 3,
-        nombre: 'Producto 3',
-        descripcion: 'Descripción del Producto 3',
-        precio: 30.0,
-        categoria: 'Categoría 3',
-      },
-    ];
+      (error: any) => { // Especificar el tipo del parámetro
+        console.error('Error al cargar los productos:', error);
+      }
+    );
+  }
+
+
+  editarProducto(producto: any): void {
+    console.log('Editar producto:', producto);
+  }
+
+  eliminarProducto(id: number): void {
+    console.log('Eliminar producto con ID:', id);
   }
 }
+
+
+

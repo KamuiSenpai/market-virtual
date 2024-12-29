@@ -1,6 +1,6 @@
 <div class="productos-container">
   <h1>Gestión de Productos</h1>
-  <a href="#" class="nuevo-producto-btn">+ Nuevo Producto</a>
+  <button class="nuevo-producto-btn">+ Nuevo Producto</button>
 
   <!-- Filtros avanzados -->
   <div class="filtros-container">
@@ -40,17 +40,19 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>Ejemplo Producto</td>
-        <td>Categoría 1</td>
-        <td>$10.00</td>
-        <td>Unidad</td>
-        <td>Activo</td>
+      <!-- Aquí se llenarán los datos dinámicamente con Angular -->
+      <tr *ngFor="let producto of productos">
+        <td>{{ producto.nombre }}</td>
+        <td>{{ producto.categoria }}</td>
+        <td>{{ producto.precio | currency }}</td>
+        <td>{{ producto.unidad }}</td>
+        <td>{{ producto.estado }}</td>
         <td>
-          <a href="#" class="acciones-btn editar">Editar</a>
-          <a href="#" class="acciones-btn eliminar">Eliminar</a>
+          <button (click)="editarProducto(producto)" class="acciones-btn editar">Editar</button>
+          <button (click)="eliminarProducto(producto.id)" class="acciones-btn eliminar">Eliminar</button>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
+

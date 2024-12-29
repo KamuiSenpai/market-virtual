@@ -10,6 +10,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import jakarta.servlet.FilterChain;
@@ -17,6 +20,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 
 @Configuration
 public class SecurityConfig {
@@ -31,6 +35,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable()) // Deshabilitar CSRF (opcional, basado en la necesidad)
+            .cors() // Habilitar CORS
+            .and()
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/usuarios/registrar", "/api/usuarios/login").permitAll() // Rutas públicas
                 .anyRequest().authenticated() // Requiere autenticación para el resto
@@ -39,6 +45,18 @@ public class SecurityConfig {
             .formLogin(form -> form.disable()); // Deshabilitar formulario de login
 
         return http.build();
+    }
+
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(Arrays.asList("http://localhost:4200")); // Permitir el frontend
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        config.setAllowCredentials(true);
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
     }
 }
 
