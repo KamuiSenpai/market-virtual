@@ -5,18 +5,32 @@
       <img src="assets/icons/user-icon.png" alt="User Icon" class="user-icon" />
       <h2>Sign In</h2>
     </div>
-    <form>
+    <form (ngSubmit)="onLogin()">
       <div class="input-group">
         <label for="username">
           <i class="fa fa-user"></i>
         </label>
-        <input type="text" id="username" placeholder="Username" value="" />
+        <input
+          type="text"
+          id="username"
+          placeholder="Username"
+          [(ngModel)]="credentials.username"
+          name="username"
+          required
+        />
       </div>
       <div class="input-group">
         <label for="password">
           <i class="fa fa-lock"></i>
         </label>
-        <input type="password" id="password" placeholder="Password" value="" />
+        <input
+          type="password"
+          id="password"
+          placeholder="Password"
+          [(ngModel)]="credentials.password"
+          name="password"
+          required
+        />
       </div>
       <button type="submit" class="login-button">Login</button>
       <div class="extra-options">
